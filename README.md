@@ -3,6 +3,16 @@
 필요에 의해서 개인적으로 수정한 버전.
 프로젝트 진행 시에 수정할 일이 생길 수 있기 때문에, 설치형이 아닌 component 형태로 직접 추가해서 사용할 수 있도록 했다.
 
+src/gridlayout 폴더를 필요한 곳에 복사한다.
+
+```
+import GridLayout from '@/components/gridlayout/components/GridLayout';
+import GridItem from '@/components/gridlayout/components/GridItem';
+```
+
+위와 같이 컴포넌트를 불러와 사용한다.
+
+
 ## 이벤트 추가
 
 ### grid-item

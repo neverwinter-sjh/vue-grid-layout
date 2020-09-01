@@ -110,11 +110,11 @@
 </template>
 
 <script>
-import GridItem from "./components/gridlayout/GridItem.vue";
-import GridLayout from "./components/gridlayout/GridLayout.vue";
+import GridItem from "./gridlayout/components/GridItem.vue";
+import GridLayout from "./gridlayout/components/GridLayout.vue";
 // import ResponsiveGridLayout from './components/ResponsiveGridLayout.vue';
-import TestElement from "./components/gridlayout/TestElement.vue";
-import CustomDragElement from "./components/gridlayout/CustomDragElement.vue";
+import TestElement from "./gridlayout/components/TestElement.vue";
+import CustomDragElement from "./gridlayout/components/CustomDragElement.vue";
 import { getDocumentDir, setDocumentDir } from "./gridlayout/helpers/DOM";
 //var eventBus = require('./eventBus');
 
