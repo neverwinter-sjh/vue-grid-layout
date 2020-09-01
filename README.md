@@ -1,3 +1,16 @@
+# vue-grid-layout 수정 버전
+
+필요에 의해서 개인적으로 수정한 버전.
+프로젝트 진행 시에 수정할 일이 생길 수 있기 때문에, 설치형이 아닌 component 형태로 직접 추가해서 사용할 수 있도록 했다.
+
+## 이벤트 추가
+
+### grid-item
+* movestart : drag event가 시작함 (move와 같은 arguments를 받는다.)
+* moveend : drag event가 종료됨 (move와 같은 arguments를 받는다.)
+
+# Legacy 내용
+
 <h1 align="center">vue-grid-layout</h1>
 
 <p align="center">
