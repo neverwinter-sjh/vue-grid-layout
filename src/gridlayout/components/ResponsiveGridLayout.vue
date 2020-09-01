@@ -19,26 +19,17 @@
 }
 </style>
 <script>
-import Vue from "vue";
-var elementResizeDetectorMaker = require("element-resize-detector");
+import Vue from 'vue';
+var elementResizeDetectorMaker = require('element-resize-detector');
 
-import {
-  bottom,
-  compact,
-  getLayoutItem,
-  moveElement,
-  validateLayout,
-} from "../helpers/utils";
+import { bottom, compact, getLayoutItem, moveElement, validateLayout } from '../helpers/utils';
 //var eventBus = require('./eventBus');
 
-import GridItem from "./GridItem.vue";
-import {
-  addWindowEventListener,
-  removeWindowEventListener,
-} from "../helpers/DOM";
+import GridItem from './GridItem.vue';
+import { addWindowEventListener, removeWindowEventListener } from '../helpers/DOM';
 
 export default {
-  name: "GridLayout",
+  name: 'GridLayout',
   provide() {
     return {
       eventBus: null,
@@ -125,14 +116,14 @@ export default {
 
     self._provided.eventBus = new Vue();
     self.eventBus = self._provided.eventBus;
-    self.eventBus.$on("resizeEvent", self.resizeEventHandler);
-    self.eventBus.$on("dragEvent", self.dragEventHandler);
+    self.eventBus.$on('resizeEvent', self.resizeEventHandler);
+    self.eventBus.$on('dragEvent', self.dragEventHandler);
   },
   beforeDestroy: function () {
     //Remove listeners
-    this.eventBus.$off("resizeEvent", this.resizeEventHandler);
-    this.eventBus.$off("dragEvent", this.dragEventHandler);
-    removeWindowEventListener("resize", this.onWindowResize);
+    this.eventBus.$off('resizeEvent', this.resizeEventHandler);
+    this.eventBus.$off('dragEvent', this.dragEventHandler);
+    removeWindowEventListener('resize', this.onWindowResize);
   },
   mounted: function () {
     this.$nextTick(function () {
@@ -142,14 +133,14 @@ export default {
         if (self.width === null) {
           self.onWindowResize();
           //self.width = self.$el.offsetWidth;
-          addWindowEventListener("resize", self.onWindowResize);
+          addWindowEventListener('resize', self.onWindowResize);
         }
         compact(self.layout, self.verticalCompact);
 
         self.updateHeight();
         self.$nextTick(function () {
           const erd = elementResizeDetectorMaker({
-            strategy: "scroll", //<- For ultra performance.
+            strategy: 'scroll', //<- For ultra performance.
           });
           erd.listenTo(self.$refs.item, function () {
             self.onWindowResize();
@@ -157,14 +148,14 @@ export default {
         });
       });
 
-      addWindowEventListener("load", self.onWindowLoad.bind(this));
+      addWindowEventListener('load', self.onWindowLoad.bind(this));
     });
   },
   watch: {
     width: function () {
       this.$nextTick(function () {
         //this.$broadcast("updateWidth", this.width);
-        this.eventBus.$emit("updateWidth", this.width);
+        this.eventBus.$emit('updateWidth', this.width);
         this.updateHeight();
       });
     },
@@ -172,16 +163,16 @@ export default {
       this.layoutUpdate();
     },
     colNum: function (val) {
-      this.eventBus.$emit("setColNum", val);
+      this.eventBus.$emit('setColNum', val);
     },
     rowHeight: function () {
-      this.eventBus.$emit("setRowHeight", this.rowHeight);
+      this.eventBus.$emit('setRowHeight', this.rowHeight);
     },
     isDraggable: function () {
-      this.eventBus.$emit("setDraggable", this.isDraggable);
+      this.eventBus.$emit('setDraggable', this.isDraggable);
     },
     isResizable: function () {
-      this.eventBus.$emit("setResizable", this.isResizable);
+      this.eventBus.$emit('setResizable', this.isResizable);
     },
   },
   methods: {
@@ -191,14 +182,14 @@ export default {
       if (self.width === null) {
         self.onWindowResize();
         //self.width = self.$el.offsetWidth;
-        addWindowEventListener("resize", self.onWindowResize);
+        addWindowEventListener('resize', self.onWindowResize);
       }
       compact(self.layout, self.verticalCompact);
 
       self.updateHeight();
       self.$nextTick(function () {
         const erd = elementResizeDetectorMaker({
-          strategy: "scroll", //<- For ultra performance.
+          strategy: 'scroll', //<- For ultra performance.
         });
         erd.listenTo(self.$refs.item, function () {
           self.onWindowResize();
@@ -212,7 +203,7 @@ export default {
           this.lastLayoutLength = this.layout.length;
         }
         compact(this.layout, this.verticalCompact);
-        this.eventBus.$emit("updateWidth", this.width);
+        this.eventBus.$emit('updateWidth', this.width);
         this.updateHeight();
       }
     },
@@ -222,24 +213,16 @@ export default {
       };
     },
     onWindowResize: function () {
-      if (
-        this.$refs !== null &&
-        this.$refs.item !== null &&
-        this.$refs.item !== undefined
-      ) {
+      if (this.$refs !== null && this.$refs.item !== null && this.$refs.item !== undefined) {
         this.width = this.$refs.item.offsetWidth;
       }
     },
     containerHeight: function () {
       if (!this.autoSize) return;
-      return (
-        bottom(this.layout) * (this.rowHeight + this.margin[1]) +
-        this.margin[1] +
-        "px"
-      );
+      return bottom(this.layout) * (this.rowHeight + this.margin[1]) + this.margin[1] + 'px';
     },
     dragEvent: function (eventName, id, x, y, h, w) {
-      if (eventName === "dragmove" || eventName === "dragstart") {
+      if (eventName === 'dragmove' || eventName === 'dragstart') {
         this.placeholder.i = id;
         this.placeholder.x = x;
         this.placeholder.y = y;
@@ -249,7 +232,7 @@ export default {
           this.isDragging = true;
         });
         //this.$broadcast("updateWidth", this.width);
-        this.eventBus.$emit("updateWidth", this.width);
+        this.eventBus.$emit('updateWidth', this.width);
       } else {
         this.$nextTick(function () {
           this.isDragging = false;
@@ -267,12 +250,12 @@ export default {
       this.layout = moveElement(this.layout, l, x, y, true);
       compact(this.layout, this.verticalCompact);
       // needed because vue can't detect changes on array element properties
-      this.eventBus.$emit("compact");
+      this.eventBus.$emit('compact');
       this.updateHeight();
-      if (eventName === "dragend") this.$emit("layout-updated", this.layout);
+      if (eventName === 'dragend') this.$emit('layout-updated', this.layout);
     },
     resizeEvent: function (eventName, id, x, y, h, w) {
-      if (eventName === "resizestart" || eventName === "resizemove") {
+      if (eventName === 'resizestart' || eventName === 'resizemove') {
         this.placeholder.i = id;
         this.placeholder.x = x;
         this.placeholder.y = y;
@@ -282,7 +265,7 @@ export default {
           this.isDragging = true;
         });
         //this.$broadcast("updateWidth", this.width);
-        this.eventBus.$emit("updateWidth", this.width);
+        this.eventBus.$emit('updateWidth', this.width);
       } else {
         this.$nextTick(function () {
           this.isDragging = false;
@@ -296,9 +279,9 @@ export default {
       l.h = h;
       l.w = w;
       compact(this.layout, this.verticalCompact);
-      this.eventBus.$emit("compact");
+      this.eventBus.$emit('compact');
       this.updateHeight();
-      if (eventName === "resizeend") this.$emit("layout-updated", this.layout);
+      if (eventName === 'resizeend') this.$emit('layout-updated', this.layout);
     },
   },
 };
